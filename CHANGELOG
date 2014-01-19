@@ -1,0 +1,78 @@
+﻿MtimeScraper
+
+' 20100824 Revision : 1.02
+' 20100902 Change   : requestScrape.Timeout, from 3000 to 6000
+' 20100904 Change   : Force showing "remark" to solve "对白" display incomplete sentences
+'                     http://www.mtime.com/movie/16916/behind_the_scene.html http://www.mtime.com/movie/10492/behind_the_scene.html
+' 20100904 Modified : Re-order Extras Composition
+' 20100915 Update   : Change Regex - "b" to "b/?" & "font[\w#= ]*" to "font[\w""'#,:;=/\\_\+\-\.\| ]*"
+' 20101010 Change   : GetMtimeStream's requestScrape.Timeout as caller defined
+' 20101010 Add      : GetMtimeStream's requestScrape.ReadWriteTimeout value as timeout*2
+' 20101010 Update   : UserAgent from rv:1.9.2.4 to rv:1.9.2.10
+' 20101010 Add      : Capture "一句话评论" that contains only english words. http://www.mtime.com/movie/11614/behind_the_scene.html
+
+' 20101212 Revision : 1.10
+' 20101212 Update   : New Plot & Extras Scrambling AND Text Alignment Engine
+' 20101212 Update   : UserAgent from Firefox/1.9.2.10 to Firefox/1.9.2.13
+' 20101212 Add      : requestScrape.KeepAlive = False
+
+' 20101222 Revision : 1.20
+' 20101222 Change   : Moving forward OO Concept
+' 20101222 Add      : getTitle, getYear
+' 20101224 Merge    : Implement charRef class
+
+' 20101225 Revision : 1.30
+' 20101225 Change   : Moving forward Managed Dynamic Link Library
+' 20110101 Change   : Bold Title [b][/b]
+
+' 20110105 Revision : 1.31
+' 20110105 Fix      : getPremiereCountry capture
+' 20110105 Update   : getExtras's layout engine, 99547 95792 104453 106313
+
+' 20110106 Revision : 1.32
+' 20110106 Fix      : getTitle capture on 104790
+' 20110106 Update   : getExtras's layout engine, 99547 95792 104453 106313
+
+' 20110116 Revision : 1.33
+' 20110116 Update   : Mtime updates: getTitle & getTitleCn, according tt0024444 & 71722
+
+' 20110215 Revision : 1.34
+' 20110215 Fix      : Now.ToString(), from "yyyymmddHHmmss" to "yyyyMMddHHmmss"
+
+' 20110216 Revision : 1.35
+' 20110216 Update   : Cookies url, from "http://www.mtime.com/" to "http://movie.mtime.com/"
+' 20110216 Update   : Handles Mtime new back-ends URI & cookies
+
+' 20110430 Revision : 1.36
+' 20110430 Update   : UserAgent from Firefox/3.6.13 to Firefox/4.0.1.
+' 20110430 Change   : ReadWriteTimeout from timeOut * 2 to 1.5
+' 20110430 Add      : HTTP-Headers : Accept;Accept-Charset;Accept-Language;
+' 20110430 Add      : Content-Encoding: gzip
+' 20110430 Update   : SignIn URI "http://www.mtime.com/member/signin/" to "http://my.mtime.com/member/signin/"
+' 20110430 Update   : loginChecker's Regular Expression
+
+' 20111216 Revision : 1.37
+' 20111216 Update   : Detection against Mtime's new NickName, loginChecker
+' 20111216 Update   : Mtime updates: getTitle, getTitleCn, getYear capture
+
+' 20140120 Revision : 1.38
+' 20140120 Update   : UserAgent from Firefox/4.0.1 to Firefox/26.0.
+' 20140120 Update   : Vacumm code & comments
+' 20140120 Change   : Release to Open-source
+
+
+' Some links for testing purpose
+'http://movie.mtime.com/104453/		' 杜拉拉
+'http://movie.mtime.com/106313/		' 让子弹飞
+'http://movie.mtime.com/104696/		' 叶问 2
+'http://movie.mtime.com/99547/		' 奠基
+'http://movie.mtime.com/83329/		' 钢铁侠 2
+'http://movie.mtime.com/114616/		' 全城热恋
+'http://movie.mtime.com/102279/		' 岁月神偷
+'http://movie.mtime.com/46125/		' ToyStory 3
+'http://movie.mtime.com/115552/		' 决战刹马镇
+'http://movie.mtime.com/95811/		' 敢死队
+'http://movie.mtime.com/99400/		' 唐山大地震
+'http://movie.mtime.com/80706/		' 2012
+'http://movie.mtime.com/115782/		' 面包的日子 // Plots & Extras pages N/A
+'http://movie.mtime.com/11614/		' 驱魔人     // Contained non-chinese letters on reviews
